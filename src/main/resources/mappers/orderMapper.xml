@@ -1,0 +1,58 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- com.abc.dao.GuestbookDAO 인터페이스와 매핑됨 -->
+<mapper namespace="com.abc.dao.OrderDAO">
+	
+	<!-- 주문정보 등록 -->
+	<insert id="insertOrder" parameterType="Order">
+		INSERT INTO ORDER_TABLE(ORDERNUM, ORDERNAME, ORDERPRICE, ORDERIMAGE, MEMBERID)
+		VALUES(#{orderNum}, #{orderName}, #{orderPrice}, #{orderImage}, #{memberId})
+	</insert>
+	
+	<!-- 주문 목록 전체 출력 -->
+	<select id="selectAllOrder" resultType="Order" parameterType="string">
+		SELECT * FROM ORDER_TABLE
+		<if test="oList != null">
+			WHERE MEMBERID = #{memberId}
+		</if>
+	</select>
+	
+	<!-- 총 가격 출력 -->
+	<select id="paymentOrder" resultType="int" parameterType="string">
+		SELECT SUM(ORDERPRICE * quantity)
+		FROM ORDER_TABLE
+		WHERE MEMBERID = #{memberId}
+	</select>
+	
+	
+	<!-- 주문 정보 하나만 출력 -->
+	<select id="selectOneOrder" resultType="Order" parameterType="int">
+		SELECT *
+		FROM ORDER_TABLE
+		WHERE ORDERNUM = #{orderNum}
+	</select>
+	
+	<!-- 주문 상품 개수 추가하기 -->
+	<update id="plusOrder" parameterType="Order">
+		UPDATE ORDER_TABLE
+		SET QUANTITY = QUANTITY + 1
+		WHERE MEMBERID = #{memberId} AND ORDERNUM = #{orderNum}
+	</update>
+	
+	<!-- 주문 상품 개수 마이너스하기 -->
+	<update id="minusOrder" parameterType="Order">
+		UPDATE ORDER_TABLE
+		SET QUANTITY = QUANTITY - 1
+		WHERE MEMBERID = #{memberId} AND ORDERNUM = #{orderNum}
+	</update>
+	
+	<!-- 주문정보 삭제하기 -->
+	<delete id="deleteOrder" parameterType="Order">
+		DELETE ORDER_TABLE
+		WHERE MEMBERID = #{memberId} AND ORDERNUM = #{orderNum}
+	</delete>
+	
+</mapper>
+

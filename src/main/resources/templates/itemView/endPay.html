@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>[안내]</title>
+	<link rel = "stylesheet" href = "/css/style.css">
+	<style>
+	
+	button {
+		border: none;
+	    padding: 15px 30px;
+	    border-radius: 15px;
+	    font-family: "paybooc-Light", sans-serif;
+	    box-shadow: 0 15px 35px rgb(0 0 0 / 20%);
+	    font-weight: 600;
+	    transition: 0.25s;
+	    background-color: #ffc500;
+	    color: #360d00;
+	    box-sizing: border-box;
+		font-size: 15px;
+		margin: 30px;
+	}
+	
+	button:hover { 
+		letter-spacing: 2px;
+	    transform: scale(1.2);
+	    cursor: pointer; 
+	}
+</style>
+</head>
+<body style="background-color:#ffedba; text-align:center; " > 
+	<h1 style="color:#360d00; text-align:center; font-size: 40px; margin:20px; ">결제가 완료되었습니다~~</h1>
+	<button onclick="redirect()">확인</button>
+
+<script>
+	// 창닫기 버튼을 누르면 주문(카트) 창이 새로고침이 되고 지금 이 작은 창은 닫힌다.
+	function redirect() {
+		
+		window.opener.location.href = '/';
+		
+		window.close();
+	}
+</script>
+</body>
+</html>

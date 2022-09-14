@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<!-- spring-security도 dependency를 웹페이지에서도 적용하기 위해선 반드시 적어줘야 함 -->
+<head>
+<meta charset="UTF-8">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+	<link rel = "stylesheet" href = "/css/style.css">
+	<link rel = "stylesheet" href = "/css/brandInfo_style.css">
+</head>
+<body>
+	<div id = "wrap">
+	    <!-- 헤더 부분 -->
+	    <header id = "header" class = "clearfix">
+	    	<!-- 로고 부분 -->
+	        <a th:href = "@{/}" >
+	        	<span id = "logo"></span>
+	        </a>
+	        <!-- 헤더 윗 부분(로그인, 회원가입) -->
+	        <!-- sec:authorize 사용자의 인증 정보를 체크 -->
+	        <div class = "util">
+	        	
+	        	<!-- 인증되지 않은 사용자의 경우(비로그인 상태) -->
+	        	<p sec:authorize = "not isAuthenticated()"><a th:href = "@{/member/join}">회원가입</a></p>
+	        	<p sec:authorize = "not isAuthenticated()"><a th:href = "@{/member/login}">로그인</a></p>
+	        	
+	        	<!-- 인증된 사용자(로그인 상태) -->
+	        	<!-- WebSecurityConfig에 이미 logout에 대한 것을 정의해둠. 따라서 html을 따로 만들어주지 않아도 됨 -->
+	        	<p sec:authorize = "isAuthenticated()"><a th:href = "@{/member/update}">정보수정</a></p>
+	        	<p sec:authorize = "isAuthenticated()"><a th:href = "@{/logout}">로그아웃</a></p>
+	        	
+	        	<!-- 관리자(ADMIN) 계정만 접근가능 -->
+	        	<p sec:authorize = "hasRole('ADMIN')"><a th:href = "@{/manager}">관리자</a></p>
+	        	
+	        	<!-- 인증된 사용자의 이름(username) -->
+	        	<p id = "welcomeMsg" sec:authorize = "isAuthenticated()"><span sec:authentication = "name"></span> 님 환영합니다!</p>
+	        	
+	        </div>
+	        <!-- 메뉴 네비게이션 -->
+	        <nav class="nav">
+				<ul>
+					<li><a th:href="@{/product/menu}">메뉴</a>
+	                	<ul class="submenu">
+	                    	<li><a th:href="|@{/product/menu}?category=1|">단품메뉴</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=2|">세트메뉴</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=3|">사이드</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=4|">음료&디저트</a></li>
+	                    </ul>
+	                </li>
+	                <li><a th:href="@{/item/buyItem}">주문하기</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/item/buyItem}">배달</a></li>
+	                        <li><a th:href="@{/findStore}">매장찾기</a></li>
+	                    </ul>
+	                </li>
+	                <li><a th:href="@{/notice/brandInfo}">브랜드</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/notice/brandInfo}">최고영소개</a></li>
+	                        <li><a th:href="@{/notice/list}">공지사항</a></li>
+	                        <li><a th:href="@{/notice/event}">이벤트</a></li>
+	                    </ul>
+	                </li>
+	                <li><a th:href="@{/myPage}">마이페이지</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/member/update}">회원정보수정</a></li>
+	                        <li><a th:href="@{/item/orderItem}">장바구니</a></li>
+	                    </ul>
+	                </li>
+				</ul>
+			</nav>
+	    </header>
+	    <!-- //header 끝 -->
+	
+		<!-- contentWrap 부분 -->
+		<section id = "contentsWrap" class = "clearfix">
+			<!-- 페이지 위치 표시해주는 부분 -->
+	    	<div class = "webLocation">
+				<div class = "page_navi">
+					<a th:href = "@{/}">
+						<span>HOME</span>
+					</a>
+					<span>브랜드</span>
+					<span>최고영 소개</span>
+				</div>
+	    	</div>
+			<div class = "contArea">
+				<h3 class = "title page_tit">최고영 소개</h3>
+				<!-- 브랜드 소개글 큰 틀 부분 -->
+				<div class = "brandCont01">
+					<div class="img">
+						<img src="/images/menu.jpg">
+					</div> <!-- "img" 부분 끝 -->
+					
+					<!-- 브랜드 소개글 작은 틀 (타이틀 부분) -->
+					<div class = "subCont1">
+						<h2 class = "titDep2">세계 1위 푸드 서비스 기업,<br>최고영 버거</h2>
+						<!-- titDep2부분 끝 -->
+						<p class = "textInfo"> <!-- 브랜드 소개 작은 틀 (글 작성 부분)-->
+						"최고영 햄버거는 지난 1998년 충장점을 오픈하며 한국에 진출한 이래, 차별화된 메뉴와 개성 있는 매장 인테리어로 지난 25년간 한국 소비자의 사랑을 받아오고 있습니다."<br>
+						"가장 맛있는 햄버거를 제공하며, 퀵 서비스로 사랑받은 최고영 버거는 현재 전국 100개(2022년 8월기준) 매장을 운영하고 있습니다."<br>
+						"좋은 품질의 제품(Quality)과 친절한 서비스 (Service) 그리고 청결한 매장(Cleanliness)은 고객 여러분께 더 큰 만족을 드리고자 노력하는 최고용의 약속이자 가치입니다."<br>
+						"더욱 풍성하고 맛있는 제품과 정성을 다하는 고객 서비스로 여러분께 더욱 가까이 다가가도록 하겠습니다."
+						</p><!-- textInfo 끝 -->
+					</div>
+					
+				</div>
+				
+				<div class = "brandCont01">
+					<div class="img">
+						<img src="/images/people.jpg">
+					</div> <!-- img 끝 -->
+					<!-- 브랜드 소개글 작은 틀(타이틀 부분) -->
+					<div class = "subCont1">
+						<h2 class = "titDep2">햄버거에 진심인 사람들의 만남,<br>세 사람의 이야기</h2><!-- titDep2부분 끝 -->
+						<!-- titDep2부분 끝 -->
+						<p class = "textInfo"> <!-- 브랜드 소개 작은 틀 (글 작성 부분)-->
+							"최고영 버거의 역사는 할머니가 담배피던 시절 캘리포니아에 있는 한 햄버거 가게를 방문하면서부터 시작되었습니다."
+							<br>
+							"고생하다 지쳐버린 세 사람은 우연히 들어간 햄버거 가게에서 엄청난 충격을 받았습니다."
+							<br>
+							"영혼을 갈은듯한 이 맛! 세 사람은 서로의 눈빛을 보자마자 그대로 짐을 챙겨 한국행 비행기를 끊고
+							<br>
+							&nbsp;햄버거의 햄버거에 위한 햄버거에 의한 연구를 하게 된다. "
+						</p><!-- textInfo 끝 -->
+					</div> <!-- subCont1 끝 -->
+				</div> <!-- brandCont01 끝 -->
+			</div> <!-- contArea 끝 -->
+		</section>
+		
+		<!-- 푸터 부분 -->
+	    <footer id="footer">
+	        <div class="foot1">
+	        	<!-- 로고 부분 -->
+	        	<a th:href = "@{/}" >
+	        		<span></span>
+	        	</a>
+			</div>
+	        <div class="foot2">
+	        	<p>광주 광산구 무진대로 282 광주무역회관 7층  전화주문 010-1111-2222<br>
+				사업자 등록번호 123-45-67890 (주)CGY 대표이사 최세련, 고혜정, 류영훈<br>
+				Copyright 2022 CGY Co., Ltd. All right Reserved</p>
+			</div>
+	        <div class="foot3">
+	        	<p>이용약관</p>
+	        	<p>개인정보취급방침</p>
+	        	<p>법적고지</p>
+	        	<a href = "http://www.facebook.com" target="_blank"><span id = "facebook"></span></a>
+	        	<a href = "http://www.instagram.com" target="_blank"><span id = "insta"></span></a>
+	        </div>
+	    </footer>
+	    <!-- //footer 끝 -->
+	</div> <!-- //wrap 끝 -->
+	<!-- Javascript -->
+	<!-- 메뉴바 기능 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		$(".nav > ul > li").mouseenter(function() {
+			$(".nav > ul > li > ul").stop().slideDown(200)
+		});
+		$(".nav > ul > li").mouseleave(function() {
+			$(".nav > ul > li > ul").stop().slideUp(200)
+		});
+	</script>
+</body>
+</html>

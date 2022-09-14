@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>[주문확인]</title>
+	<link rel = "stylesheet" href = "/css/style.css">
+<style>
+	
+	body { background-color: #ffedba; text-align:center; margin: 20px;  }
+	
+	h1 { margin: 15px; font-size: 55px; }
+	.submitBu {
+		border: none;
+	    padding: 15px 30px;
+	    border-radius: 15px;
+	    font-family: "paybooc-Light", sans-serif;
+	    box-shadow: 0 15px 35px rgb(0 0 0 / 20%);
+	    font-weight: 600;
+	    transition: 0.25s;
+	    background-color: #ffc500;
+	    color: #360d00;
+	    box-sizing: border-box;
+		font-size: 15px;
+		margin: 30px;
+	}
+	
+	.submitBu:hover { 
+		letter-spacing: 2px;
+	    transform: scale(1.2);
+	    cursor: pointer; 
+	}
+	
+	
+</style>
+</head>
+<body>
+<!-- <form action="itemCheck" method="POST"> -->
+<!-- 상품이 주문(카트)에 있는지 확인하는 html -->
+<section>
+	<h1>주문확인</h1>
+	<!-- 상품이 맞게 들어왔는지 확인하는 부분 // 차후 없어질 예정 -->
+	<!-- 만약 주문(카트) 창에 상품이 없다면 주문을 할 수 있는 버튼을 생성 -->
+	<div th:if="${checkOrders == null}">
+		<form action="buyItem" method="POST" id="hiddenForm">
+			<ul th:each="tem : ${itCk}">
+		    	<li>
+		    		<input type="hidden" th:value="${tem.itemNum}" id="hiddenNum" name="orderNum">
+		    		<input type="hidden" th:value="${tem.itemImage}" id="hiddenImage" name="orderImage">
+		    		<input type="hidden" th:value="${tem.itemName}" id="hiddenName" name="orderName">
+		    		<input type="hidden" th:value="${tem.itemPrice}" id="hiddenPrice" name="orderPrice">
+		    	</li>
+		    </ul>
+			<input type="button" class = "submitBu" value = "주문하기" th:onclick="addItem([[${itCk.itemNum}]], [[${itCk.itemImage}]], [[${itCk.itemName}]], [[${itCk.itemPrice}]])">
+			<input type="hidden" value="" id="hiddenNum" name="itemNum">
+		</form>		
+	</div>
+	
+	<!-- 만약 이미 주문(카트)에 상품이 있다면 주문(카트) 창에 상품을 추가할 것인지 묻는 부분 -->
+	<div th:if="${checkOrders != null}" id = "textColor">
+		<p th:text = "|${checkOrders.orderName}는 이미 카트에 있습니다. 추가하시겠습니까?|"></p>
+		<form action="plusUp" method="GET" id="hiddenForm1">
+			<input type="submit" class = "submitBu" value="추가하기" th:onclick = "goOrder([[${itCk.itemNum}]])">
+			<input type="hidden" value="" id="hiddenNum1" name="orderNum">
+		</form>
+	</div>
+</section>
+
+<script>
+
+	// 밑의 두 펑션 모두 상품을 추가(혹은 있는 상품의 개수를 더하는) 펑션
+ 	function addItem(num, image, name, price) {
+		
+		document.getElementById("hiddenNum").value = num;
+		document.getElementById("hiddenImage").value = image;
+		document.getElementById("hiddenName").value = name;
+		document.getElementById("hiddenPrice").value = price;
+		
+		document.getElementById("hiddenForm").submit();
+		
+		window.opener.location.href = 'orderItem';
+	}
+	
+	function goOrder(num) {
+		
+		document.getElementById("hiddenNum1").value = num;
+		
+		document.getElementById("hiddenForm1").submit();
+		
+		window.opener.location.href = 'orderItem';
+		
+	}
+</script>
+</body>
+</html>

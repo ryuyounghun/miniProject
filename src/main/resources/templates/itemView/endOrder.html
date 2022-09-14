@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>[주문]</title>
+<link rel = "stylesheet" href = "/css/style.css">
+<style>
+	
+	body { background-color: #ffedba; text-align:center; margin: 13px; }
+
+	button {
+		border: none;
+	    padding: 15px 30px;
+	    border-radius: 15px;
+	    font-family: "paybooc-Light", sans-serif;
+	    box-shadow: 0 15px 35px rgb(0 0 0 / 20%);
+	    font-weight: 600;
+	    transition: 0.25s;
+	    background-color: #ffc500;
+	    color: #360d00;
+	    box-sizing: border-box;
+		font-size: 15px;
+		margin: 30px;
+	}
+	
+	button:hover { 
+		letter-spacing: 2px;
+	    transform: scale(1.2);
+	    cursor: pointer; 
+	}
+</style>
+</head>
+<body>
+	<!-- 상품 창과 주문(카트) 부분을 원할하게 연결하기 위해 사용하는 부분 -->
+	<div>
+		<h1 >상품이 주문 페이지로 이동하였습니다.</h1>
+		<!-- 창 닫기버튼 -->
+		<button onclick="reload()">창 닫기</button>
+	</div>
+
+
+<script>
+	// 창닫기 버튼을 누르면 주문(카트) 창이 새로고침이 되고 지금 이 작은 창은 닫힌다.
+	function reload() {
+		
+		window.opener.location.href = 'orderItem';
+		
+		window.close();
+	}
+</script>
+</body>
+</html>

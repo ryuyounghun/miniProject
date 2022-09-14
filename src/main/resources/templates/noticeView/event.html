@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "veiwport" content = "width=device-width, initial-scale=1.0">
+	<link rel = "stylesheet" href = "/css/style.css">
+	<link rel = "stylesheet" href = "/css/event_style.css">
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<title>이벤트</title>
+</head>
+<body>
+<body>
+	<div id = "wrap">
+		<!-- 헤더 부분 -->
+	    <header id = "header" class = "clearfix">
+	    	<!-- 로고 부분 -->
+	        <a th:href = "@{/}" >
+	        	<span id = "logo"></span>
+	        </a>
+	        <!-- 헤더 윗 부분(로그인, 회원가입) -->
+	        <!-- sec:authorize 사용자의 인증 정보를 체크 -->
+	        <div class = "util">
+	        	
+	        	<!-- 인증되지 않은 사용자의 경우(비로그인 상태) -->
+	        	<p sec:authorize = "not isAuthenticated()"><a th:href = "@{/member/join}">회원가입</a></p>
+	        	<p sec:authorize = "not isAuthenticated()"><a th:href = "@{/member/login}">로그인</a></p>
+	        	
+	        	<!-- 인증된 사용자(로그인 상태) -->
+	        	<!-- WebSecurityConfig에 이미 logout에 대한 것을 정의해둠. 따라서 html을 따로 만들어주지 않아도 됨 -->
+	        	<p sec:authorize = "isAuthenticated()"><a th:href = "@{/member/update}">정보수정</a></p>
+	        	<p sec:authorize = "isAuthenticated()"><a th:href = "@{/logout}">로그아웃</a></p>
+	        	
+	        	<!-- 관리자(ADMIN) 계정만 접근가능 -->
+	        	<p sec:authorize = "hasRole('ADMIN')"><a th:href = "@{/manager}">관리자</a></p>
+	        	
+	        	<!-- 인증된 사용자의 이름(username) -->
+	        	<p id = "welcomeMsg" sec:authorize = "isAuthenticated()"><span sec:authentication = "name"></span> 님 환영합니다!</p>
+	        	
+	        </div>
+	        <!-- 메뉴 네비게이션 -->
+	        <nav class="nav">
+				<ul>
+					<li><a th:href="@{/product/menu}">메뉴</a>
+	                	<ul class="submenu">
+	                    	<li><a th:href="|@{/product/menu}?category=1|">단품메뉴</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=2|">세트메뉴</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=3|">사이드</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=4|">음료&디저트</a></li>
+	                    </ul>
+	                </li>
+	                <li><a href="#">주문하기</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/item/buyItem}">배달</a></li>
+	                        <li><a th:href="@{/findStore}">매장찾기</a></li>
+	                    </ul>
+	                </li>
+	                <li><a href="#">브랜드</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/notice/brandInfo}">최고영소개</a></li>
+	                        <li><a th:href="@{/notice/list}">공지사항</a></li>
+	                        <li><a th:href="@{/notice/event}">이벤트</a></li>
+	                    </ul>
+	                </li>
+	                <li><a href="#">마이페이지</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/member/update}">회원정보수정</a></li>
+	                        <li><a th:href="@{/item/orderItem}">장바구니</a></li>
+	                    </ul>
+	                </li>
+				</ul>
+			</nav>
+	    </header>
+	    <!-- //header 끝 -->
+	
+		<!-- contentWrap 부분 -->
+		<section id = "contentsWrap" class = "clearfix">
+			<!-- 페이지 위치 표시해주는 부분 -->
+	    	<div class = "webLocation">
+				<div class = "page_navi">
+					<a th:href = "@{/}">
+						<span>HOME</span>
+					</a>
+					<span>브랜드</span>
+					<a th:href = "@{/notice/event}">
+						<span>이벤트</span>
+					</a>
+				</div>
+	    	</div>
+		</section>
+		<h1>이벤트</h1>
+		<section id = "rulletBox">
+			<!-- 이벤트 부분 -->
+			<div class = "container">
+				<div class = "one">최고영버거 세트</div>
+				<div class = "two">삼성 z플립</div>
+				<div class = "three">다음 기회에</div>
+				<div class = "four">이쁜이버거 세트</div>
+				<div class = "five">다음 기회에</div>
+				<div class = "six">다음 기회에</div>
+				<div class = "seven">에어팟 프로</div>
+				<div class = "eight">다음 기회에</div>
+			</div>
+			<span class = "mid"></span>
+			<button id = "spin">Spin</button>
+			<div class = "stoper"></div>
+		</section>
+		<!-- 푸터 부분 -->
+	    <footer id="footer">
+	        <div class="foot1">
+	        	<!-- 로고 부분 -->
+	        	<a th:href = "@{/}" >
+	        		<span></span>
+	        	</a>
+			</div>
+	        <div class="foot2">
+	        	<p>광주 광산구 무진대로 282 광주무역회관 7층  전화주문 010-1111-2222<br>
+				사업자 등록번호 123-45-67890 (주)CGY 대표이사 최세련, 고혜정, 류영훈<br>
+				Copyright 2022 CGY Co., Ltd. All right Reserved</p>
+			</div>
+	        <div class="foot3">
+	        	<p>이용약관</p>
+	        	<p>개인정보취급방침</p>
+	        	<p>법적고지</p>
+	        	<a href = "#"><span id = "facebook"></span></a>
+	        	<a href = "#"><span id = "insta"></span></a>
+	        </div>
+	    </footer>
+	    <!-- //footer 끝 -->
+	</div>
+	
+	<!-- Javascript -->
+	<!-- 메뉴바 기능 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		$(".nav > ul > li").mouseenter(function() {
+			$(".nav > ul > li > ul").stop().slideDown(200)
+		});
+		$(".nav > ul > li").mouseleave(function() {
+			$(".nav > ul > li > ul").stop().slideUp(200)
+		});
+	</script>
+	<script>
+		let container = document.querySelector(".container");
+		let btn = document.getElementById("spin");
+		let number = Math.ceil(Math.random() * 10000);
+	
+		let flash = document.querySelector(".container div");
+	
+	
+		btn.onclick = function () {
+		  container.style.transform = "rotate(" + number + "deg)";
+		  number += Math.ceil(Math.random() * 10000);
+		  
+		}
+	</script>
+</body>
+</html>

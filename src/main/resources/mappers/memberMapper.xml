@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- com.abc.dao.MemberDAO 인터페이스와 매핑됨 -->
+<mapper namespace="com.abc.dao.MemberDAO">
+
+	<!-- 회원정보 등록 쿼리 -->
+	<insert id = "insertMember" parameterType = "member">
+		INSERT INTO MEMBERS (MEMBERID, MEMBERPW, MEMBERNAME, PHONE, BIRTH, SEX, ADDRESS)
+		VALUES (#{memberId}, #{memberPw}, #{memberName}, #{phone}, #{birth}, #{sex}, #{address})
+	</insert>
+	
+	<select id = "selectOneMember" parameterType = "string" resultType = "member">
+	 	SELECT * FROM MEMBERS
+	 	WHERE MEMBERID = #{memberId}
+	</select>
+	
+	<update id = "updateMember" parameterType="Member">
+		UPDATE MEMBERS
+		SET 
+			<if test = "memberPw != null">
+				MEMBERPW = #{memberPw},
+			</if>
+			<if test = "memberName != null">
+				MEMBERNAME = #{memberName},
+			</if>
+			<if test = "phone != null">
+				PHONE = #{phone},
+			</if>
+			<if test = "address != null">
+				ADDRESS = #{address}
+			</if>
+		WHERE
+			MEMBERID = #{memberId}
+	</update>
+</mapper>
+

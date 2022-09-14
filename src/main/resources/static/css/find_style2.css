@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+#clickbutton { margin: 50px 184px;}
+
+h1 { margin-bottom: 50px; font-size: 50px; }
+
+#address { width: 90%; margin: 0 auto; }
+
+button {
+	margin-left: 30px;
+	border: none;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgb(0 0 0 / 20%);
+    font-weight: 600;
+    transition: 0.25s;
+    background-color: #ffc500;
+	color: #360d00;
+    box-sizing: border-box;
+	font-size: 20px;
+}
+
+button:hover {
+	letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+#memberAddress { display: inline-block; margin-left: 30px; }
+
+#contentsWrap #map {
+		margin: 50px auto;
+		width:700px;
+		height: 500px;
+}

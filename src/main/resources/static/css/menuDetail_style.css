@@ -1,0 +1,9 @@
+@charset "UTF-8";
+/* mebuContents */
+#contentsWrap #menuContents { padding: 100px 150px; }
+#contentsWrap #menuContents .menuImage { width: 400px; float: left; }
+#contentsWrap #menuContents fieldset { border: none; }
+#contentsWrap #menuContents form { width: 500px; float: left; }
+#contentsWrap #menuContents legend { position: absolute; left: -999em; }
+#contentsWrap #menuContents th, td { border: 1px solid #ededed; border-collapse: collapse; padding: 20px; }
+#contentsWrap #menuContents th { background-color: #ededed; }

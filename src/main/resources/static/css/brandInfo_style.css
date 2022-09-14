@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.page_tit{
+	font-size: 40px;
+	font-weight: bold;
+	margin: 30px;
+}
+
+.contArea { 
+	padding: 20px 70px; 
+	}
+.img img {
+	width: 100%; 
+	margin: 5px;
+}
+
+.subCont1 {
+	padding: 15px 0;
+}
+
+.titDep2{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 30px;
+	padding: 0px 10px;
+}
+
+ .textInfo{
+    font-family:'Malgun Gothic';
+	color : #4f4e4c;
+	font-size: 16px;
+	line-height: 1.6;
+	font-weight: 800;
+	padding: 20px 15px;
+} 
+
+

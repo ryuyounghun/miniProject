@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+#contArea { padding: 50px 50px 0 50px; }
+
+#contArea h1 { display: inline-block; margin: 0 120px 50px; font-size: 50px; }
+
+#contArea #btn {
+	display: inline-block;
+    float: right;
+    margin: 24px 98px;
+}
+#contArea table {
+	width: 900px;
+	margin: 0 auto;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+}
+
+#contArea #titlePart { padding: 20px 20px 10px; }
+
+#contArea #datePart td { padding: 0 20px 20px; border-bottom: 1px solid #dedede; font-size: 18px; }
+
+#contArea #datePart td:last-child { text-align: right; }
+
+#contArea #contPart { padding: 30px 50px; }
+
+#contArea #filePart td:first-child { width: 30%; }
+
+#contArea #filePart td { padding: 20px; }
+
+.w-btn { margin: 80px 480px 50px; }
+
+.w-btn a {
+    border: none;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgb(0 0 0 / 20%);
+    font-weight: 600;
+    transition: 0.25s;
+    background-color: #ffc500;
+	color: #360d00;
+    box-sizing: border-box;
+	font-size: 18px;
+}
+
+.w-btn a:hover {
+    letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}

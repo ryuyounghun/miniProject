@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* menuContents */
+#menuContents { padding: 50px; }
+#menuContents h2 { font-size: 55px; margin-left: 30px; }
+.hidden { position: absolute; left: -999em; }
+#menuContents .menuList li { 
+	float: left;
+    width: 25%;
+    text-align: center;
+    height: 285px;
+}

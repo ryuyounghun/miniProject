@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/* banner */
+#banner { text-align: center; height: 400px; line-height: 400px; }
+
+/* contents */
+#contents { text-align: center; padding: 50px; }
+#contents h1 {
+	font-size: 55px;
+	padding-bottom: 10px
+}
+#contents h2 { font-size: 29px; font-weight: 200; padding-bottom: 30px; }
+#contents button {
+	border: none;
+    padding: 15px 30px;
+    border-radius: 40px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgb(0 0 0 / 20%);
+    font-weight: 600;
+    transition: 0.25s;
+    background-color: #ffc500;
+    color: #360d00;
+    box-sizing: border-box;
+	font-size: 25px;
+	margin-top: 30px;
+}
+#contents button:hover {
+	letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+#contents div {
+	background: url('../images/mainPageImage.png') no-repeat;
+	width: 1080px;
+	height: 198px;
+	margin: auto;
+	margin-top: 70px;
+}
+
+.con1 {
+	width:3600px;
+	transition: transform 0.5s;
+	transition: .3s ease-out
+}
+.inner1 {
+	width: 1200px;
+	float: left;
+}
+
+.inner1 img { width: 100%;}
+
+#moveButton1 {position:absolute; top: 100px; bottom:100px; left: 200px; font-size:40px;}
+#moveButton2 {position:absolute; top: 100px; bottom:100px; right:200px; font-size:40px;}

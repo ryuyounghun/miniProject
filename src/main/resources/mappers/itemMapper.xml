@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- com.abc.dao.GuestbookDAO 인터페이스와 매핑됨 -->
+<mapper namespace="com.abc.dao.ItemDAO">
+
+	<!-- 상품 정보 등록 쿼리 -->
+	<insert id="insertItem" parameterType="Item">
+		INSERT INTO ITEM(
+			ITEMNUM,
+			ITEMNAME,
+			ITEMCATEGORY,
+			ITEMIMAGE,
+			ITEMPRICE,
+			ITEMCONTENT
+			
+		)
+		VALUES (
+			ITEM_SEQ1.NEXTVAL,
+			#{itemName},
+			#{itemCategory},
+			#{itemImage},
+			#{itemPrice},
+			#{itemContent}
+			
+		)
+	</insert>
+	
+	<!-- 상품 전체 출력 -->
+	<select id="selectAllItem" resultType="Item" parameterType="string">
+		SELECT * FROM ITEM
+		<if test="category != null">
+		<where>
+			<!-- type이 제목일때 --> 
+			<if test = 'category eq "1"'>
+				ITEMCATEGORY = #{itemCategory}
+			</if>
+			<if test = 'category eq "2"'>
+				ITEMCATEGORY = #{itemCategory}
+			</if>
+			<if test = 'category eq "3"'>
+				ITEMCATEGORY = #{itemCategory}
+			</if>
+			<if test = 'category eq "4"'>
+				ITEMCATEGORY = #{itemCategory}
+			</if>
+		</where>
+	</if>
+	ORDER BY ITEMCATEGORY ASC
+	</select>
+	
+	<!-- 상품 하나만 출력 -->
+	<select id="selectOneItem" parameterType="int" resultType="Item">
+		SELECT * FROM ITEM
+		WHERE ITEMNUM = #{itemNum}
+	</select>
+</mapper>
+

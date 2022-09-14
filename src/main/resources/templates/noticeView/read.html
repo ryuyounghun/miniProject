@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<!-- spring-security도 dependency를 웹페이지에서도 적용하기 위해선 반드시 적어줘야 함 -->
+<head>
+	<meta charset="UTF-8">
+	<title>글 읽기</title>
+	<link rel = "stylesheet" href = "/css/style.css">
+	<link rel = "stylesheet" href = "/css/read_style.css">
+</head>
+<body>
+	<div id = "wrap">
+		<!-- 헤더 부분 -->
+	    <header id = "header" class = "clearfix">
+	    	<!-- 로고 부분 -->
+	        <a th:href = "@{/}" >
+	        	<span id = "logo"></span>
+	        </a>
+	        <!-- 헤더 윗 부분(로그인, 회원가입) -->
+	        <!-- sec:authorize 사용자의 인증 정보를 체크 -->
+	        <div class = "util">
+	        	
+	        	<!-- 인증되지 않은 사용자의 경우(비로그인 상태) -->
+	        	<p sec:authorize = "not isAuthenticated()"><a th:href = "@{/member/join}">회원가입</a></p>
+	        	<p sec:authorize = "not isAuthenticated()"><a th:href = "@{/member/login}">로그인</a></p>
+	        	
+	        	<!-- 인증된 사용자(로그인 상태) -->
+	        	<!-- WebSecurityConfig에 이미 logout에 대한 것을 정의해둠. 따라서 html을 따로 만들어주지 않아도 됨 -->
+	        	<p sec:authorize = "isAuthenticated()"><a th:href = "@{/member/update}">정보수정</a></p>
+	        	<p sec:authorize = "isAuthenticated()"><a th:href = "@{/logout}">로그아웃</a></p>
+	        	
+	        	<!-- 관리자(ADMIN) 계정만 접근가능 -->
+	        	<p sec:authorize = "hasRole('ADMIN')"><a th:href = "@{/manager}">관리자</a></p>
+	        	
+	        	<!-- 인증된 사용자의 이름(username) -->
+	        	<p id = "welcomeMsg" sec:authorize = "isAuthenticated()"><span sec:authentication = "name"></span> 님 환영합니다!</p>
+	        	
+	        </div>
+	        <!-- 메뉴 네비게이션 -->
+	        <nav class="nav">
+				<ul>
+					<li><a th:href="@{/product/menu}">메뉴</a>
+	                	<ul class="submenu">
+	                    	<li><a th:href="|@{/product/menu}?category=1|">단품메뉴</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=2|">세트메뉴</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=3|">사이드</a></li>
+	                        <li><a th:href="|@{/product/menu}?category=4|">음료&디저트</a></li>
+	                    </ul>
+	                </li>
+	                <li><a th:href="@{/item/buyItem}">주문하기</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/item/buyItem}">배달</a></li>
+	                        <li><a th:href="@{/findStore}">매장찾기</a></li>
+	                    </ul>
+	                </li>
+	                <li><a th:herf = "@{/notice/brandInfo}">브랜드</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/notice/brandInfo}">최고영소개</a></li>
+	                        <li><a th:href="@{/notice/list}">공지사항</a></li>
+	                        <li><a th:href="@{/notice/event}">이벤트</a></li>
+	                    </ul>
+	                </li>
+	                <li><a th:href="@{/myPage}">마이페이지</a>
+	                    <ul class="submenu">
+	                        <li><a th:href="@{/member/update}">회원정보수정</a></li>
+	                        <li><a th:href="@{/item/orderItem}">장바구니</a></li>
+	                    </ul>
+	                </li>
+				</ul>
+			</nav>
+	    </header>
+	    <!-- //header 끝 -->
+	
+		<!-- contentWrap 부분 -->
+		<section id = "contentsWrap" class = "clearfix">
+			<!-- 페이지 위치 표시해주는 부분 -->
+	    	<div class = "webLocation">
+				<div class = "page_navi">
+					<a th:href = "@{/}">
+						<span>HOME</span>
+					</a>
+					<span>브랜드</span>
+					<a th:href = "@{/notice/list}">
+						<span>공지사항</span>
+					</a>
+				</div>
+	    	</div>
+	    	<div id = "contArea">
+	    		<h1>공지사항</h1>
+	    		<!-- 인증정보 확인해서 수정/삭제 버튼 표시할 것!!(관리자만 수정/삭제 가능) -->
+			  	<div sec:authorize = "hasRole('ADMIN')" id = "btn">
+			  	 	<!-- 수정하기 버튼 -->
+			  	 	<input type = "button" value = "수정하기" th:onclick = "|javascript:location.href='update?num=${notice.noticeNum}'|">
+					<!-- 삭제하기 버튼 -->
+			    	<input type = "button" value = "삭제하기" th:noticeNum = "${notice.noticeNum}" th:onclick = "confirmDelete(this.getAttribute('noticeNum'))"> 
+			    </div>
+			    
+				<table th:object = "${notice}">
+					<tr>
+						<td colspan = "2" th:text = "*{title}" id = "titlePart"></td>
+					</tr>
+					<tr id = "datePart">
+						<td th:text = "*{inputDate}"></td>
+						<td th:text = "*{viewCount}"></td>
+					</tr>
+					<tr>
+						<td colspan = "2" th:text = "*{content}" id = "contPart">
+						</td>
+					</tr>
+					<tr>
+						<td colspan = "2" th:if="*{originalFile != null}">
+							<img th:src="@{display(num = *{noticeNum})}" width="500px" >
+						</td>
+					</tr>
+					<tr id = "filePart">
+						<td>첨부파일</td>
+						<td colspan = "2">
+							<!-- 쿼리스트링처럼 만드는 것 -->
+							<a th:href = "@{|download?num=*{noticeNum}|}" th:text = "*{originalFile}"></a>
+							<!-- 값을 여러개 보낼 때는 밑에 방법처럼 만드는게 좋당 -->
+						</td>
+					</tr>
+				</table>
+				
+				<div class ="w-btn">
+					<a th:href = "@{./list}">목록보기</a>
+				</div>
+		     </div>
+		</section>
+		<!-- 푸터 부분 -->
+	    <footer id="footer">
+	        <div class="foot1">
+	        	<!-- 로고 부분 -->
+	        	<a th:href = "@{/}" >
+	        		<span></span>
+	        	</a>
+			</div>
+	        <div class="foot2">
+	        	<p>광주 광산구 무진대로 282 광주무역회관 7층  전화주문 010-1111-2222<br>
+				사업자 등록번호 123-45-67890 (주)CGY 대표이사 최세련, 고혜정, 류영훈<br>
+				Copyright 2022 CGY Co., Ltd. All right Reserved</p>
+			</div>
+	        <div class="foot3">
+	        	<p>이용약관</p>
+	        	<p>개인정보취급방침</p>
+	        	<p>법적고지</p>
+	        	<a href = "http://www.facebook.com" target="_blank"><span id = "facebook"></span></a>
+	        	<a href = "http://www.instagram.com" target="_blank"><span id = "insta"></span></a>
+	        </div>
+	    </footer>
+	    <!-- //footer 끝 -->
+	</div>
+	
+	<!-- Javascript -->
+	<script>
+		function confirmDelete(num) {
+			
+			let answer = confirm('글을 정말 삭제하시겠습니까?');
+			
+			if(answer) {
+				location.href = 'delete?num=' + num;
+			}
+		}
+	</script>
+	<!-- 메뉴바 기능 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		$(".nav > ul > li").mouseenter(function() {
+			$(".nav > ul > li > ul").stop().slideDown(200)
+		});
+		$(".nav > ul > li").mouseleave(function() {
+			$(".nav > ul > li > ul").stop().slideUp(200)
+		});
+	</script>
+</body>
+</html>

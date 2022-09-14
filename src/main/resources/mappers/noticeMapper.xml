@@ -1,0 +1,106 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- com.abc.dao.NoticeDAO 인터페이스와 매핑됨 -->
+<mapper namespace="com.abc.dao.NoticeDAO">
+
+	<!-- 글쓰기 -->
+	<insert id = "insertNotice" parameterType = "Notice">
+		INSERT INTO NOTICE(
+			NOTICENUM, 
+			TITLE, 
+			CONTENT
+			<!-- 첨부파일 정보가 있을때 -->
+			<if test = "originalFile != null and savedFile != null">
+				, ORIGINALFILE
+				, SAVEDFILE
+			</if>
+		)
+		VALUES(
+			NOTICE_SEQ.NEXTVAL, 
+			#{title}, 
+			#{content}
+			<!-- 첨부파일 정보 유무 확인 -->
+			<if test = "originalFile != null and savedFile != null">
+				, #{originalFile}
+				, #{savedFile}
+			</if>
+		)
+	</insert>
+
+	<!-- 글읽기 / 글 수정할때도 한번 가져다 쓸 수 있음 -->
+	<select id = "selectOneNotice" parameterType = "int" resultType = "Notice">
+		SELECT * FROM NOTICE
+		WHERE NOTICENUM = #{noticeNum}
+	</select>	
+	
+	<!-- 글 수정하기 -->
+	<update id = "updateNotice" parameterType = "Notice">
+		UPDATE NOTICE
+		SET TITLE = #{title}, CONTENT = #{content}
+		WHERE NOTICENUM = #{noticeNum}
+	</update>
+	
+	<!-- 글 삭제하기 -->
+	<delete id = "deleteNotice" parameterType = "int">
+		DELETE FROM NOTICE
+		WHERE NOTICENUM = #{noticeNum}
+	</delete>
+	
+	<!-- 글 전체보기(조건에 따라서 검색 가능) -->
+	<!-- parameterType = "map" 의미: 객체가 아닌 여러개의 값을 보내주기 위해 hashmap을 파라미터타입으로! -->
+	<select id = "selectAllNotices" parameterType = "map" resultType = "Notice">
+		SELECT 
+			NOTICENUM AS noticeNum,
+			TITLE AS title,
+			TO_CHAR(INPUTDATE, 'YYYY-MM-DD') AS inputDate,
+			VIEWCOUNT AS viewCount,
+			SAVEDFILE AS savedFile
+		FROM NOTICE
+		<!-- type이 null 이면 전체리스트를 보여주고, null이 아니면 밑에 if 조건문을 실행 -->
+		<if test = "type != null and searchKeyword != null">
+			<where> 
+				<!-- type이 제목일 때 -->
+				<if test = 'type eq "title"'>
+					TITLE LIKE '%'||#{searchKeyword}||'%'
+				</if>
+				<!-- type이 내용일 때 -->		
+				<if test = 'type eq "content"'>
+					CONTENT LIKE '%'||#{searchKeyword}||'%'
+				</if>
+			</where>
+		</if>
+		ORDER BY NOTICENUM DESC
+	</select>
+	
+	<!-- 전체/조건 공지글 개수 -->
+	<select id = "countNotices" parameterType = "map" resultType = "int">
+		SELECT 
+			count(*)
+		FROM NOTICE
+		<!-- type이 null 이면 전체리스트를 보여주고, null이 아니면 밑에 if 조건문을 실행 -->
+		<if test = "type != null and searchKeyword != null">
+			<where> 
+				<!-- type이 제목일 때 -->
+				<if test = 'type eq "title"'>
+					TITLE LIKE '%'||#{searchKeyword}||'%'
+				</if>
+				<!-- type이 내용일 때 -->		
+				<if test = 'type eq "content"'>
+					CONTENT LIKE '%'||#{searchKeyword}||'%'
+				</if>
+			</where>
+		</if>
+		ORDER BY NOTICENUM DESC
+	</select>
+	
+	<!-- 게시글 하나에 대해서 조회수 올리기 -->
+	<update id = "updateViewCount" parameterType = "int">
+		UPDATE NOTICE
+		SET VIEWCOUNT = VIEWCOUNT + 1
+		WHERE NOTICENUM = #{noticeNum}
+	</update>
+	
+</mapper>
+
