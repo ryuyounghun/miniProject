@@ -22,7 +22,7 @@ Language
 * JavaScript
 
 Database
-* Oracle SQL Developer
+* Oracle
 
 Framework
 * Spring Boot
